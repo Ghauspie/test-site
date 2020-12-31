@@ -1,0 +1,9 @@
+; fichier de configuration d'exemple
+; il faut créer une copie de ce fichier et la nommer config.ini
+; c'est ce fichier app/config.ini qui est utilisé par notre code pour récupérer la configuration de la machine courante
+; ensuite, il faut remplir les paramètres ci-dessous dans le fichier app/config.ini
+
+DB_HOST=localhost   
+DB_USERNAME=
+DB_PASSWORD=
+DB_NAME=
