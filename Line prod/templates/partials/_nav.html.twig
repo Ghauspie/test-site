@@ -1,0 +1,13 @@
+<nav class="nav">
+{% if app.user %}
+   <button><a class="nav-link" href="{{ path('app_logout') }}">logout</a></button>
+    {% if is_granted('ROLE_ADMIN') %}
+    <button type="button" class="btn btn-secondary"><a class="nav-link active" href="{{ path('main') }}">Acceuil</a></button>
+    <button><a class="nav-link" href="{{ path('user_index') }}">User</a></button>
+    <button><a class="nav-link" href="{{ path('display_prod_index') }}">Display Prod</a></button>
+    {% endif %}
+{% else %}
+ <button><a class="nav-link" tabindex="+1" href="{{ path('app_login') }}">Login</a></button>
+{% endif %}
+
+</nav>
