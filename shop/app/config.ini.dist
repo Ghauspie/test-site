@@ -1,0 +1,9 @@
+; TODO :
+;   - copier coller ce fichier, et renommer la copie en config.ini
+;   - ensuite, dans ce fichier config.ini, définir une valeur pour chaque paramètre
+
+; base de données
+DB_HOST=127.0.0.1
+DB_NAME=
+DB_USERNAME=
+DB_PASSWORD=

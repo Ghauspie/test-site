@@ -1,0 +1,64 @@
+header {
+    position: fixed;
+    width: 6%;
+    align-items: stretch;
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: stretch;
+    height: 100%;
+}
+main {
+    width: 95%;
+    margin-left: 6%;
+
+}
+nav {
+    float: left;
+    display: flex;
+   flex-wrap: wrap;
+    background-color: blue;
+    height: 100%;
+    width: 100%;
+    align-content: flex-start;
+}
+
+
+.divframe {
+     display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 50%;
+    margin: 0%;
+}
+
+button {
+    text-align: center;
+    margin: auto;
+    margin-bottom: 2%;
+    border: blue solid 0.1em;
+    border-radius: 20%;
+    margin-top: 5%;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+iframe {
+    width: 940px;
+    height: 420px;
+    overflow: hidden;
+
+}
+.mainframe{
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 6%;
+}
