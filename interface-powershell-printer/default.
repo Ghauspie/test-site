@@ -1,0 +1,147 @@
+set-executionpolicy unrestricted;
+Add-Type -AssemblyName System.Windows.Forms 
+Add-Type -AssemblyName System.Drawing
+[System.Windows.Forms.Application]::EnableVisualStyles()
+$Form= New-Object System.Windows.Forms.Form
+$Form.ClientSize= '800,300'
+$Form.Text= "Install printer of Name"
+
+#Récupération des printer sur le spool
+$PrinterSpool=net view \\spool 
+#Enregistrement du résultat dans un fichier csv
+$PrinterSpool > C:\Spool.csv
+#Calcule du nombre de ligne présente dans le fichier 
+$countspool= $PrinterSpool.count
+#Supprimer les lignes du début que nous souhaitons pas garder 
+$countspool=$countspool - 7
+$PrinterSpool= Get-Content "C:\Spool.csv" -Tail $countspool
+$PrinterSpool> C:\Spool.csv
+#Suppremier les lignes de la fin que nous souhaitons pas garder 
+$countSpoolL= $PrinterSpool.count
+$countspoolL=$countspoolL - 2
+$PrinterSpool= Get-Content "C:\Spool.csv" -TotalCount $countspoolL
+$PrinterSpool> C:\Spool.csv
+#$printerSpool=Get-content C:\Spool.csv | foreach-object {$_ -replace "Ressources partag‚es de \\spool", ''} | pause 5 sec |Set-Content C:\Spool.csv
+$printerSP = Import-Csv -Path "C:\Spool.csv" –header Name, Type, Location –delimiter " "
+
+#foreach ($printer in $printerSP) 
+#{ 
+    
+#    $printername = $printer.name
+
+#}
+$PinterSRV1= net view \\srvspool 
+$PinterSRV1 > C:\Spool1.csv
+#Calcule du nombre de ligne présente dans le fichier 
+$countspool1= $PinterSRV1.count
+#Supprimer les lignes du début que nous souhaitons pas garder 
+$countspool1=$countspool1 - 7
+$PinterSRV1= Get-Content "C:\Spool1.csv" -Tail $countspool1
+$PinterSRV1> C:\Spool1.csv
+#Suppremier les lignes de la fin que nous souhaitons pas garder 
+$countSpool1L= $PinterSRV1.count
+$countSpool1L=$countSpool1L - 2
+$PinterSRV1= Get-Content "C:\Spool1.csv" -TotalCount $countSpool1L
+$PinterSRV1> C:\Spool1.csv
+#$printerSpool2=Get-content C:\Spool2.csv | foreach-object {$_ -replace "Ressources partag‚es de \\spool2", ''} | pause 5 sec |Set-Content C:\Spool2.csv
+$printerSP1 = Import-Csv -Path "C:\Spool1.csv" –header Name, Type, Location –delimiter " "
+
+
+$BoutonOk= New-Object System.Windows.Forms.Button
+$BoutonOk.Location= New-Object System.Drawing.Point(550,250)
+$BoutonOk.Width= 80
+$BoutonOk.Height=40
+$BoutonOk.text="Ok"
+$BoutonOk.DialogResult = [System.Windows.Forms.DialogResult]::OK
+
+
+$BoutonAn= New-Object System.Windows.Forms.Button
+$BoutonAn.Location= New-Object System.Drawing.Point(400,250)
+$BoutonAn.Width= 120
+$BoutonAn.Height=40
+$BoutonAn.text="Annuler"
+$BoutonAn.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
+
+
+
+
+
+
+$Label = New-Object System.Windows.Forms.Label
+$Label.Location = New-Object System.Drawing.Point(80,80)
+$Label.Size = New-Object System.Drawing.Size(500,150)
+$Label.Text = 'Please select the printer to be installed:'
+
+#Liste déroulante (ComboBox).
+$Liste1 = New-Object System.Windows.Forms.ListBox 
+$liste1.Location = New-Object Drawing.Point (370,120)
+$liste1.Size = New-Object System.Drawing.Size(250,150)
+$liste1.Height = 80
+
+#$liste1.DropDownStyle = "DropDownList"
+
+
+
+foreach ($printer1 in $printerSP2) 
+{ 
+
+    $printername1 = $printer1.name
+    $Liste1.Items.AddRange(("\\Spool\"+$printername1 ))
+    
+}
+
+$Liste1.Text="Serveur Spool2"
+foreach ($printer2 in $printerSP1) 
+{ 
+
+    $printername2 = $printer2.name
+    $Liste1.Items.AddRange(("\\srvspool\"+$printername2 ))
+    
+}
+
+#$liste1.Items.AddRange(("\\Spool\Printer"))
+$liste1.SelectedIndex = 0
+
+#Attache le contrôle à la fenêtre
+$Form.controls.add($liste1)
+
+$Form.controls.Add($Label)
+$Form.controls.Add($BoutonAn)
+$Form.controls.Add($BoutonOk)
+$form.controls.add($Logo)
+#$verifprinter=(Get-ItemProperty "HKU:\$SIDSNU\Printers\Connections") foreach ($selectnameprinter in $printer)
+
+$result=$Form.ShowDialog()
+#Traitement a faire concernant la list et les bouttom 
+If ($Result -eq [System.Windows.Forms.DialogResult]::OK) {
+#Write id of user
+$SNUSID=whoami /user |set-content c:\UserID.txt;
+#Recupération du nom de l'imprimante selectionné 
+if (-not ($liste2)){ $SelectItem = [string]$liste1.SelectedItem }
+else { $SelectItem = [string]$liste2.SelectedItem }
+(New-Object -ComObject WScript.Network).AddWindowsPrinterConnection($SelectItem)
+$ServiceName = "WScript.Network"
+# Récuperer que le SID du text
+$SIDSNU=Get-Content C:\UserID.txt -last 1 | foreach {
+$debut = $_.IndexOf("lesaffre\"+"$selecnameuser") + 18
+if (($_.Length - $debut) -ge 68) { $taille = 68 }
+else { $taille = $_.Length - $debut }
+$_.SubString($debut, $taille)
+};
+$nameprinter=$SelectItem
+$nameprinter=$nameprinter -replace "\\",","
+$printerne=(Get-ItemProperty "HKEY_USERS\$SIDSNU\Printers\Connections\$nameprinter")
+#Recherche du NE enregistré '
+
+if (-not $printerne) { Start-Sleep -Seconds 10 } 
+else { 
+# Clean historique
+remove-item c:\User*.txt
+#Remove-Variable 
+Exit }
+
+}
+
+Elseif ($Result -eq [System.Windows.Forms.DialogResult]::Cancel) {
+Exit
+}
