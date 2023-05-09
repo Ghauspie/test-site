@@ -22,3 +22,6 @@ https://github.com/Ghauspie/SquidGameS
 ## 7: Lien vers Popcornmovie:
 Projet d'un site en Angular utilisant une API web sur le thème du cinéma. Projet fait durant ma formation .net. 
 https://github.com/Ghauspie/popcornmovie
+
+## 8: Lien vers les différents projets en C#:
+https://github.com/Ghauspie/AllProjectDotNet
