@@ -16,7 +16,7 @@ $countspool= $PrinterSpool.count
 $countspool=$countspool - 7
 $PrinterSpool= Get-Content "C:\Spool.csv" -Tail $countspool
 $PrinterSpool> C:\Spool.csv
-#Suppremier les lignes de la fin que nous souhaitons pas garder 
+#Supprimer les lignes de la fin que nous souhaitons pas garder 
 $countSpoolL= $PrinterSpool.count
 $countspoolL=$countspoolL - 2
 $PrinterSpool= Get-Content "C:\Spool.csv" -TotalCount $countspoolL
